@@ -53,6 +53,7 @@ class AntTweakBarWrapper;
 
 typedef enum
 {
+	EXPLICIT_SYMPLECTIC,
 	INTEGRATION_IMPLICIT_EULER,
 	INTEGRATION_IMPLICIT_BDF2,
 	INTEGRATION_IMPLICIT_MIDPOINT,
@@ -361,6 +362,7 @@ private:
 	void collisionResolution(const VectorX& penetration, VectorX& x, VectorX& v);
 
 	void integrateImplicitMethod();
+	void integrateExplicitSymplectic();
 
 	// all those "OneIteration" functions will be called in a loop
 	// x is initially passed as the initial guess of the next postion (i.e. inertia term): x = y = current_pos + current_vel*h

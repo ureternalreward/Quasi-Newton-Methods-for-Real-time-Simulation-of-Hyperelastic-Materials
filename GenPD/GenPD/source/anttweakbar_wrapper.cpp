@@ -237,6 +237,7 @@ void AntTweakBarWrapper::Init()
 	TwAddVarRW(m_sim_bar, "Sub Stepping", TW_TYPE_INT32, &g_simulation->m_sub_stepping, "min = 1");
 	// integration method
 	TwEnumVal integrationStyleEV[INTEGRATION_TOTAL_NUM] = { \
+															{EXPLICIT_SYMPLECTIC, "Explicit Symplectic"},\
 															{INTEGRATION_QUASI_STATICS, "Quasi Statics"},\
 															{INTEGRATION_IMPLICIT_EULER, "Implicit Euler"}, \
 															{INTEGRATION_IMPLICIT_BDF2, "Implicit BDF2"},\

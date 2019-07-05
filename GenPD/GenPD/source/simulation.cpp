@@ -227,6 +227,9 @@ void Simulation::Update()
 		case INTEGRATION_IMPLICIT_NEWMARK_BETA:
 			integrateImplicitMethod();
 			break;
+		case EXPLICIT_SYMPLECTIC:
+			integrateExplicitSymplectic();
+			break;
 		}
 
 		// damping
@@ -1647,6 +1650,20 @@ void Simulation::collisionResolution(const VectorX& penetration, VectorX& x, Vec
 			v.block_vector(i) = vi;
 		}
 	}
+}
+
+void Simulation::integrateExplicitSymplectic()
+{
+	VectorX& x = m_mesh->m_current_positions;
+	VectorX& v = m_mesh->m_current_velocities;
+
+	VectorX force;
+	evaluateGradientPureConstraint(x, m_external_force, force);
+	force -= m_external_force;
+	force = -force;
+
+	v = v + m_h * m_mesh->m_inv_mass_matrix*force;
+	x = x + m_h * v;
 }
 
 void Simulation::integrateImplicitMethod()
