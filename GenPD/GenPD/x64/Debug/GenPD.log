@@ -1,1 +1,7 @@
-﻿
+﻿  constraint_spring.cpp
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float'
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint.h(301): warning C4305: 'initializing': truncation from 'double' to 'const ScalarType'
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_spring.cpp(81): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_spring.cpp(133): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_spring.cpp(174): warning C4305: 'initializing': truncation from 'double' to 'ScalarType'
+  GenPD.vcxproj -> C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\GenPD\x64\Debug\GenPD.exe

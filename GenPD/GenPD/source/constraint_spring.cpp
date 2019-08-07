@@ -152,28 +152,48 @@ void SpringConstraint::EvaluateHessian(const VectorX& x, bool definiteness_fix)
 	ScalarType l0 = m_rest_length;
 	ScalarType ks = m_stiffness;
 
-	m_H = ks * (EigenMatrix3::Identity() - l0 / l_ij*(EigenMatrix3::Identity() - (x_ij*x_ij.transpose()) / (l_ij*l_ij)));
+	/*Original Tiantian*/ //m_H = ks * (EigenMatrix3::Identity() - l0 / l_ij*(EigenMatrix3::Identity() - (x_ij*x_ij.transpose()) / (l_ij*l_ij)));
 	//EigenMatrix3 k = ks * (1-l0/l_ij) * EigenMatrix3::Identity();
 
 	if (definiteness_fix)
 	{
-		// definiteness fix
-		Eigen::EigenSolver<EigenMatrix3> evd;
-		evd.compute(m_H);
-		EigenMatrix3 Q = evd.eigenvectors().real();
-		EigenVector3 LAMBDA = evd.eigenvalues().real();
-		//assert(LAMBDA(0) > 0);
-		//ScalarType smallest_lambda = LAMBDA(0) * 1e-10;
-		ScalarType smallest_lambda = 1e-6;
-		for (unsigned int i = 0; i != LAMBDA.size(); i++)
-		{
-			//assert(LAMBDA(0) > LAMBDA(i));
-			if (LAMBDA(i) < smallest_lambda)
-			{
-				LAMBDA(i) = smallest_lambda;
+		if (1) {
+			//Libo's Method
+			if (l_ij < l0) {
+				m_H = ks * (x_ij*x_ij.transpose()) / (l_ij*l_ij);
 			}
+			else {
+				m_H = ks * (EigenMatrix3::Identity() - l0 / l_ij * (EigenMatrix3::Identity() - (x_ij*x_ij.transpose()) / (l_ij*l_ij)));
+			}
+			
+			//auto m_H_Libo = (0e-6*EigenMatrix3::Identity()+ks * (x_ij*x_ij.transpose()) / (l_ij*l_ij)).eval();
 		}
-		m_H = Q * LAMBDA.asDiagonal() * Q.transpose();
+		else {
+			//Tiantian's method
+			// definiteness fix
+			m_H = ks * (EigenMatrix3::Identity() - l0 / l_ij * (EigenMatrix3::Identity() - (x_ij*x_ij.transpose()) / (l_ij*l_ij)));
+			Eigen::EigenSolver<EigenMatrix3> evd;
+			evd.compute(m_H);
+			EigenMatrix3 Q = evd.eigenvectors().real();
+			EigenVector3 LAMBDA = evd.eigenvalues().real();
+			EigenVector3 Original_Lambda = LAMBDA;
+			//assert(LAMBDA(0) > 0);
+			//ScalarType smallest_lambda = LAMBDA(0) * 1e-10;
+			ScalarType smallest_lambda = 0e-6;
+			for (unsigned int i = 0; i != LAMBDA.size(); i++)
+			{
+				//assert(LAMBDA(0) > LAMBDA(i));
+				if (LAMBDA(i) < smallest_lambda)
+				{
+					LAMBDA(i) = smallest_lambda;
+				}
+			}
+			m_H = Q * LAMBDA.asDiagonal() * Q.transpose();
+		}
+		
+	}
+	else {
+		m_H = ks * (EigenMatrix3::Identity() - l0 / l_ij * (EigenMatrix3::Identity() - (x_ij*x_ij.transpose()) / (l_ij*l_ij)));
 	}
 }
 

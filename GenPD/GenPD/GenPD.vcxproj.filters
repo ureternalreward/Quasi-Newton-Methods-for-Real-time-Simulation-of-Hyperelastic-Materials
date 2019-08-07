@@ -244,6 +244,9 @@
     <ClInclude Include="source\camera.h">
       <Filter>Source Files\framework\camera</Filter>
     </ClInclude>
+    <ClInclude Include="source\Exponential_Wrapper.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="Natvis\EigenVis.natvis">

@@ -1,9 +1,16 @@
-HandleNum   1
+HandleNum   2
 
-Color       0.3 1 0.3
-RotationCenter 1.25 0 0
+Color       1 0 0
+RotationCenter -5 8 -5
 Translation 0 0 0
 Rotation 1 0 0 0
-VerticesNum 16
-17 50 83 116 149 182 215 248 281 314 347 380 413 446 479 512 
+VerticesNum 1
+0 
+
+Color       1 0 0
+RotationCenter 5 8 -5
+Translation 0 0 0
+Rotation 1 0 0 0
+VerticesNum 1
+12 
 

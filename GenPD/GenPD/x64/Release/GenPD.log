@@ -1,1 +1,274 @@
-﻿
+﻿  anttweakbar_wrapper.cpp
+  camera.cpp
+  constraint.cpp
+  constraint_attachment.cpp
+  constraint_penalty.cpp
+  constraint_spring.cpp
+  constraint_tet.cpp
+  fps.cpp
+  glsl_wrapper.cpp
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\constraint_attachment.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\constraint_spring.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\constraint_penalty.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\constraint_tet.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\camera.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint.h(301): warning C4305: 'initializing': truncation from 'double' to 'const ScalarType' (compiling source file source\constraint_attachment.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint.h(301): warning C4305: 'initializing': truncation from 'double' to 'const ScalarType' (compiling source file source\constraint_spring.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint.h(301): warning C4305: 'initializing': truncation from 'double' to 'const ScalarType' (compiling source file source\constraint_penalty.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint.h(301): warning C4305: 'initializing': truncation from 'double' to 'const ScalarType' (compiling source file source\constraint_tet.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_attachment.cpp(71): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint.h(301): warning C4305: 'initializing': truncation from 'double' to 'const ScalarType' (compiling source file source\camera.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_spring.cpp(81): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_penalty.cpp(90): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(69): warning C4244: 'return': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(81): warning C4244: 'return': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(105): warning C4244: 'return': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(155): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_attachment.cpp(109): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_penalty.cpp(147): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_spring.cpp(133): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_attachment.cpp(192): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\camera.cpp(52): warning C4305: '=': truncation from 'double' to 'float'
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\camera.cpp(211): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\camera.cpp(218): warning C4244: 'initializing': conversion from 'genType' to 'float', possible loss of data
+          with
+          [
+              genType=double
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\camera.cpp(315): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\camera.cpp(322): warning C4244: 'initializing': conversion from 'genType' to 'float', possible loss of data
+          with
+          [
+              genType=double
+          ]
+  handle.cpp
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(228): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(235): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(263): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(270): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(283): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(289): warning C4244: '+=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(294): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(298): warning C4244: '+=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\glsl_wrapper.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint.h(301): warning C4305: 'initializing': truncation from 'double' to 'const ScalarType' (compiling source file source\glsl_wrapper.cpp)
+  io_mesh.cpp
+  main.cpp
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\glsl_wrapper.cpp(192): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(455): warning C4305: 'initializing': truncation from 'double' to 'ScalarType'
+  math_headers.cpp
+  matlab_debugger.cpp
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(514): warning C4244: 'initializing': conversion from 'Eigen::EigenBase<Derived>::Index' to 'unsigned int', possible loss of data
+          with
+          [
+              Derived=Eigen::Matrix<float,-1,1,0,-1,1>
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(521): warning C4305: 'argument': truncation from 'double' to 'const float'
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(522): warning C4305: 'argument': truncation from 'double' to 'const float'
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(523): warning C4305: 'argument': truncation from 'double' to 'const float'
+  mesh.cpp
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(633): warning C4244: 'return': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(689): warning C4305: '=': truncation from 'double' to 'ScalarType'
+  primitive.cpp
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(719): warning C4305: '=': truncation from 'double' to 'float'
+  scene.cpp
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(787): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(823): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(824): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(825): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\handle.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint.h(301): warning C4305: 'initializing': truncation from 'double' to 'const ScalarType' (compiling source file source\handle.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\handle.cpp(186): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\handle.cpp(210): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\handle.cpp(277): warning C4244: 'initializing': conversion from 'Eigen::EigenBase<Derived>::Index' to 'int', possible loss of data
+          with
+          [
+              Derived=Eigen::Matrix<float,-1,1,0,-1,1>
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(43): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(56): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(90): warning C4244: 'argument': conversion from 'Eigen::EigenBase<Derived>::Index' to 'const StorageIndex', possible loss of data
+          with
+          [
+              Derived=Eigen::SparseMatrix<ScalarType,0,int>
+          ]
+          and
+          [
+              StorageIndex=IndexType
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(97): warning C4244: 'initializing': conversion from 'Eigen::EigenBase<Derived>::Index' to 'unsigned int', possible loss of data
+          with
+          [
+              Derived=Eigen::SparseMatrix<ScalarType,0,int>
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(98): warning C4244: 'initializing': conversion from 'Eigen::EigenBase<Derived>::Index' to 'unsigned int', possible loss of data
+          with
+          [
+              Derived=Eigen::SparseMatrix<ScalarType,0,int>
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(115): warning C4244: '=': conversion from 'const StorageIndex' to 'ScalarType', possible loss of data
+          with
+          [
+              StorageIndex=IndexType
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(118): warning C4244: 'argument': conversion from 'ScalarType' to 'Eigen::EigenBase<Derived>::Index', possible loss of data
+          with
+          [
+              Derived=Eigen::Matrix<float,-1,1,0,-1,1>
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(130): warning C4244: 'initializing': conversion from 'Eigen::EigenBase<Derived>::Index' to 'unsigned int', possible loss of data
+          with
+          [
+              Derived=Eigen::SparseMatrix<ScalarType,0,int>
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(131): warning C4244: 'initializing': conversion from 'Eigen::EigenBase<Derived>::Index' to 'unsigned int', possible loss of data
+          with
+          [
+              Derived=Eigen::SparseMatrix<ScalarType,0,int>
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(146): warning C4244: '=': conversion from 'const StorageIndex' to 'ScalarType', possible loss of data
+          with
+          [
+              StorageIndex=IndexType
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(143): warning C4101: 'val': unreferenced local variable
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(163): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\main.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(176): warning C4267: 'initializing': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(198): warning C4244: 'argument': conversion from 'Eigen::EigenBase<Derived>::Index' to '_Ty', possible loss of data
+          with
+          [
+              Derived=Eigen::Matrix<float,-1,-1,0,-1,-1>
+          ]
+          and
+          [
+              _Ty=unsigned int
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(215): warning C4244: 'argument': conversion from 'Eigen::EigenBase<Derived>::Index' to '_Ty', possible loss of data
+          with
+          [
+              Derived=Eigen::Matrix<float,-1,1,0,-1,1>
+          ]
+          and
+          [
+              _Ty=unsigned int
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\math_headers.cpp(233): warning C4244: 'argument': conversion from 'Eigen::EigenBase<Derived>::Index' to 'const StorageIndex', possible loss of data
+          with
+          [
+              Derived=Eigen::SparseMatrix<ScalarType,0,int>
+          ]
+          and
+          [
+              StorageIndex=int
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(897): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(898): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint.h(301): warning C4305: 'initializing': truncation from 'double' to 'const ScalarType' (compiling source file source\main.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(931): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(939): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(955): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(963): warning C4244: '+=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(968): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(969): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(978): warning C4244: '+=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(1052): warning C4305: 'argument': truncation from 'double' to 'const float'
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(1053): warning C4305: 'argument': truncation from 'double' to 'const float'
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(1054): warning C4305: 'argument': truncation from 'double' to 'const float'
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(1065): warning C4244: '+=': conversion from 'double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(1072): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(1076): warning C4244: 'argument': conversion from 'double' to 'const Scalar', possible loss of data
+          with
+          [
+              Scalar=ScalarType
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(1077): warning C4244: 'argument': conversion from 'double' to 'const Scalar', possible loss of data
+          with
+          [
+              Scalar=ScalarType
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(1078): warning C4244: 'argument': conversion from 'double' to 'const Scalar', possible loss of data
+          with
+          [
+              Scalar=ScalarType
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(1081): warning C4244: 'argument': conversion from 'double' to 'const Scalar', possible loss of data
+          with
+          [
+              Scalar=ScalarType
+          ]
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint_tet.cpp(1314): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  selection_tool.cpp
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\mesh.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\primitive.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint.h(301): warning C4305: 'initializing': truncation from 'double' to 'const ScalarType' (compiling source file source\mesh.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.cpp(54): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.cpp(108): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.cpp(142): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.cpp(170): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.cpp(202): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.cpp(281): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.cpp(308): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.cpp(367): warning C4244: '=': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.cpp(597): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\mesh.cpp(127): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\scene.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\mesh.cpp(289): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\mesh.cpp(290): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\mesh.cpp(291): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\mesh.cpp(354): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\mesh.cpp(378): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\mesh.cpp(379): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+  simulation.cpp
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\mesh.cpp(615): warning C4244: 'initializing': conversion from 'double' to 'ScalarType', possible loss of data
+  tensor_math.cpp
+  tinyxml2.cpp
+  svd3x3.cpp
+  WunderSVD3x3.cpp
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\primitive.h(118): warning C4305: 'initializing': truncation from 'double' to 'float' (compiling source file source\selection_tool.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\constraint.h(301): warning C4305: 'initializing': truncation from 'double' to 'const ScalarType' (compiling source file source\selection_tool.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(61): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data (compiling source file source\wunderSVD\svd3x3.cpp)
+  c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\svd3x3.cpp(67): note: see reference to function template instantiation 'void igl::svd3x3<float>(const Eigen::Matrix<float,3,3,0,3,3> &,Eigen::Matrix<float,3,3,0,3,3> &,Eigen::Matrix<float,3,1,0,3,1> &,Eigen::Matrix<float,3,3,0,3,3> &)' being compiled
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(61): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data (compiling source file source\wunderSVD\svd3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(62): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data (compiling source file source\wunderSVD\svd3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(62): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data (compiling source file source\wunderSVD\svd3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(63): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data (compiling source file source\wunderSVD\svd3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(63): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data (compiling source file source\wunderSVD\svd3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(78): warning C4305: '=': truncation from 'double' to 'float' (compiling source file source\wunderSVD\svd3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(79): warning C4305: '=': truncation from 'double' to 'float' (compiling source file source\wunderSVD\svd3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(61): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data (compiling source file source\wunderSVD\WunderSVD3x3.cpp)
+  c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\wundersvd3x3.cpp(60): note: see reference to function template instantiation 'void wunderSVD3x3<float>(const Eigen::Matrix<float,3,3,0,3,3> &,Eigen::Matrix<float,3,3,0,3,3> &,Eigen::Matrix<float,3,1,0,3,1> &,Eigen::Matrix<float,3,3,0,3,3> &)' being compiled
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(61): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data (compiling source file source\wunderSVD\WunderSVD3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(62): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data (compiling source file source\wunderSVD\WunderSVD3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(62): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data (compiling source file source\wunderSVD\WunderSVD3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(63): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data (compiling source file source\wunderSVD\WunderSVD3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(63): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data (compiling source file source\wunderSVD\WunderSVD3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(78): warning C4305: '=': truncation from 'double' to 'float' (compiling source file source\wunderSVD\WunderSVD3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\singular_value_decomposition_kernel_declarations.hpp(79): warning C4305: '=': truncation from 'double' to 'float' (compiling source file source\wunderSVD\WunderSVD3x3.cpp)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\svd3x3.cpp(28): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\svd3x3.cpp(29): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\svd3x3.cpp(30): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\svd3x3.cpp(31): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\svd3x3.cpp(32): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\svd3x3.cpp(33): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\svd3x3.cpp(34): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\svd3x3.cpp(35): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\wundersvd\svd3x3.cpp(36): warning C4244: '=': conversion from 'const double' to 'float', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\selection_tool.cpp(147): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\selection_tool.cpp(245): warning C4018: '<': signed/unsigned mismatch
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\selection_tool.cpp(374): warning C4018: '<': signed/unsigned mismatch
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\selection_tool.cpp(409): warning C4305: 'argument': truncation from 'double' to 'float'
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\simulation.cpp(284): warning C4477: 'sprintf_s' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned __int64'
+  c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\simulation.cpp(284): note: consider using '%zd' in the format string
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\simulation.cpp(288): warning C4477: 'sprintf_s' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned __int64'
+  c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\simulation.cpp(288): note: consider using '%zd' in the format string
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\simulation.cpp(1253): warning C4101: 'ignore': unreferenced local variable
+  stb_image.c
+  stb_image_write.c
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\stb_image_write.h(326): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data (compiling source file source\stb_image_write.c)
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\stb_image.c(760): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+c:\users\v-libhua\documents\source\quasi-newton-methods-for-real-time-simulation-of-hyperelastic-materials\genpd\genpd\source\stb_image.c(773): warning C4244: 'initializing': conversion from '__int64' to 'int', possible loss of data
+  Generating code
+  All 25019 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  Finished generating code
+  GenPD.vcxproj -> C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\GenPD\x64\Release\GenPD.exe

@@ -36,7 +36,7 @@
 
 #include "simulation.h"
 #include "timer_wrapper.h"
-
+#include "Exponential_Wrapper.h"
 #ifdef ENABLE_MATLAB_DEBUGGING
 #include "matlab_debugger.h"
 extern MatlabDebugger *g_debugger;
@@ -229,6 +229,9 @@ void Simulation::Update()
 			break;
 		case EXPLICIT_SYMPLECTIC:
 			integrateExplicitSymplectic();
+			break;
+		case EXPONENTIAL_ROSENBROCK_EULER:
+			integrateERE();
 			break;
 		}
 
@@ -1664,6 +1667,29 @@ void Simulation::integrateExplicitSymplectic()
 
 	v = v + m_h * m_mesh->m_inv_mass_matrix*force;
 	x = x + m_h * v;
+}
+
+void Simulation::integrateERE()
+{
+	//rosenbrock-Euler Method
+	VectorX& x = m_mesh->m_current_positions;
+	VectorX& v = m_mesh->m_current_velocities;
+
+	VectorX force;
+	evaluateGradientPureConstraint(x, m_external_force, force);
+	force -= m_external_force;
+	force = -force;
+
+	SparseMatrix K;
+	evaluateHessianPureConstraint(x, K);
+	
+
+	auto wpr = ERE_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix, &force, &m_mesh->m_current_positions, &m_mesh->m_current_velocities);
+	wpr.ERE_one_step(m_h);
+	
+	//v = v + m_h * m_mesh->m_inv_mass_matrix*force;
+	//x = x + m_h * v;
+	
 }
 
 void Simulation::integrateImplicitMethod()

@@ -50,6 +50,7 @@
     <ClInclude Include="source\camera.h" />
     <ClInclude Include="source\clock.h" />
     <ClInclude Include="source\constraint.h" />
+    <ClInclude Include="source\Exponential_Wrapper.h" />
     <ClInclude Include="source\fps.h" />
     <ClInclude Include="source\global_headers.h" />
     <ClInclude Include="source\glsl_wrapper.h" />
@@ -156,9 +157,11 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <AdditionalOptions>/bigobj</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\AntTweakBar\include;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\freeglut\include;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\Eigen_3_3_1;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\glew\include;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <AdditionalDependencies>AntTweakBar64.lib;freeglut.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\AntTweakBar\lib;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\freeglut\lib\x64;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\glew\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -172,6 +175,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -186,12 +190,14 @@
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <AdditionalOptions>
       </AdditionalOptions>
-      <AdditionalIncludeDirectories>\source;\source\framework;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>\source;\source\framework;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\AntTweakBar\include;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\Eigen_3_3_1;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\freeglut\include;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\glew\include;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>AntTweakBar64.lib;freeglut.lib;glew32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\AntTweakBar\lib;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\freeglut\lib\x64;C:\Users\v-libhua\Documents\source\Quasi-Newton-Methods-for-Real-time-Simulation-of-Hyperelastic-Materials\Libs\glew\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

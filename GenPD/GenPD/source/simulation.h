@@ -53,6 +53,7 @@ class AntTweakBarWrapper;
 
 typedef enum
 {
+	EXPONENTIAL_ROSENBROCK_EULER,
 	EXPLICIT_SYMPLECTIC,
 	INTEGRATION_IMPLICIT_EULER,
 	INTEGRATION_IMPLICIT_BDF2,
@@ -363,7 +364,7 @@ private:
 
 	void integrateImplicitMethod();
 	void integrateExplicitSymplectic();
-
+	void integrateERE();
 	// all those "OneIteration" functions will be called in a loop
 	// x is initially passed as the initial guess of the next postion (i.e. inertia term): x = y = current_pos + current_vel*h
 	// x will be changed during these subroutines in EVERY iteration
