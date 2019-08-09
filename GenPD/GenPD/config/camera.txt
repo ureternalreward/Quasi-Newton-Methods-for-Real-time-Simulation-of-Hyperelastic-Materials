@@ -1,7 +1,7 @@
-EyeDistance         15
-Head                30
-Pitch               45
-LookAt              0 4.5 0 
+EyeDistance         33
+Head                -4.00001
+Pitch               126.8
+LookAt              -1.48435 4.20085 0.387963 
 UpDir               0 1 0 
 Fovy                60
 ZNear               0.1

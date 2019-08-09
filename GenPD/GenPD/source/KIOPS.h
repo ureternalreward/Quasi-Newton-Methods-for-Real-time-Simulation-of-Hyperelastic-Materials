@@ -50,12 +50,12 @@ namespace KIOPS {
 	template <typename Real = float, typename Mat_type>
 	Eigen::Matrix<Real, Eigen::Dynamic, Eigen::Dynamic> KIOPS(int & out_m,
 		std::vector<Real> tau_out,
-		const Mat_type& A_in,
+		Mat_type& A_in,
 		const Eigen::Matrix<Real, Eigen::Dynamic, Eigen::Dynamic>& u_in,
 		Real tol = 1.0e-7,
 		int m_init = 10,
 		int mmin = 10,
-		int mmax = 10) {
+		int mmax = 50) {
 
 		using Mat = Eigen::Matrix < Real, Eigen::Dynamic, Eigen::Dynamic >;
 		//dimension
@@ -110,8 +110,8 @@ namespace KIOPS {
 		Real mu = 1, nu = 1;
 
 		// Normalization factors
-		std::cout << "u:\n";
-		std::cout << u << std::endl;
+		/*std::cout << "u:\n";
+		std::cout << u << std::endl;*/
 		Real normU = u.rightCols(p).lpNorm<1>();
 		if (ppo > 1 && normU > 0) {
 			Real ex = std::ceil(std::log2(normU));
@@ -182,7 +182,7 @@ namespace KIOPS {
 				V.block(0, 0, n, 1) = (1 / beta) * w.col(l);
 				V.block(n, 0, p, 1) = (1 / beta) * w_aug;
 			}//end j=0
-
+			
 			//incomplete orthogonalization process
 			while (j < m) {
 				// Augmented matrix - vector product
@@ -199,7 +199,7 @@ namespace KIOPS {
 				//end
 
 				Real nrm = V.col(j + 1).norm();
-
+				//printf("nrm:%f\n", nrm);
 				// Happy breakdown
 				if (nrm < tol) {
 					happy = 1;
@@ -223,8 +223,13 @@ namespace KIOPS {
 
 			// Compute the exponential of the augmented matrix
 			Mat F = (sgn * tau * H.block(0, 0, j + 1, j + 1)).exp();
+			/*std::cout << "\nKIOPS result:\n";
+			std::cout << "first 10 V vector:\n";
+			std::cout << V.block(0, 0, 10, 10) << std::endl;
+			std::cout << "H:\n";
+			std::cout << H.block(0, 0, j + 1, j + 1) << std::endl;
 			std::cout << "F:\n";
-			std::cout << F << std::endl;
+			std::cout << F.block(0,0,(10>j?j+1:10),1) << std::endl;*/
 			exps = exps + 1;
 
 			// Restore the value of H_{ m + 1,m }
@@ -245,7 +250,16 @@ namespace KIOPS {
 				// Error for this step
 				oldomega = omega;
 				omega = tau_end * err / (tau * tol);
-
+				
+				//the conclusion is when omega is nan, we need a smaller time step size.
+				/*std::cout << "F:\n";
+				std::cout << F << std::endl;
+				std::cout << "Hblock:\n";
+				std::cout << H.block(0, 0, j + 1, j + 1) << std::endl;
+				std::cout << "reduced timestep expH:" << std::endl;
+				std::cout << (sgn * 0.2 *tau * H.block(0, 0, j + 1, j + 1)).exp() << std::endl;
+				printf("omega:%f\n", omega);
+				printf("tau_end:%f, err:%f, tau:%f, tol:%f\n", tau_end,err,tau,tol);*/
 				// Estimate order
 				if (m == oldm && tau != oldtau && ireject >= 1) {
 					order = std::max(Real(1), std::log(omega / oldomega) / std::log(tau / oldtau));
@@ -253,7 +267,7 @@ namespace KIOPS {
 				}
 				else if (orderold || ireject == 0) {
 					orderold = 1;
-					order = j / 4;
+					order = j / Real(4);
 				}
 				else {
 					orderold = 1;
@@ -273,7 +287,7 @@ namespace KIOPS {
 				}
 
 				Real remaining_time;
-				if (omega > delta) {
+				if (omega > delta||isnan(omega)) {
 					remaining_time = tau_end - tau_now;
 				}
 				else {
@@ -288,8 +302,13 @@ namespace KIOPS {
 
 				int m_opt = int(std::ceil(j + std::log(omega / gamma) / std::log(kest)));
 				//clamp between mmin, mmax, 3/4*m, 4/3*m
-				
-				m_opt = int(std::max(mmin, std::min(mmax, std::max((int)std::floor(3 / 4 * m), std::min(m_opt, (int)std::ceil(4 / 3 * m))))));
+
+				m_opt = int(std::max(mmin, std::min(mmax, std::max((int)std::floor(3.0 / 4.0 * m), std::min(m_opt, (int)std::ceil(4.0 / 3.0 * m))))));
+
+				if (isnan(omega)) {
+					m_opt = m;
+					tau_opt = tau / 5;
+				}
 
 				if (j == mmax) {
 					if (omega > delta) {
@@ -305,6 +324,9 @@ namespace KIOPS {
 				else {
 					m_new = m_opt;
 					tau_new = same_tau;
+					if (isnan(omega)) {
+						tau_new = tau / 5;
+					}
 				}//end j== mmax
 
 			}//else happy ending
@@ -332,15 +354,15 @@ namespace KIOPS {
 
 					for (int k = 0; k < blownTs; k++) {
 						Real tauPhantom = tau_out[l + k] - tau_now;
-						Mat F2 = (sgn * tauPhantom * H.block(0,0,j,j)).exp();
-						w.col(l+k) = beta * V.block(0,0,n,j) * F2.block(0,0,j,1);
+						Mat F2 = (sgn * tauPhantom * H.block(0, 0, j, j)).exp();
+						w.col(l + k) = beta * V.block(0, 0, n, j) * F2.block(0, 0, j, 1);
 					}
 
 					l = l + blownTs;
 				}
 
 				// Using the standard scheme
-				w.col(l) = beta * V.block(0,0,n,j)* F.block(0,0,j,1);
+				w.col(l) = beta * V.block(0, 0, n, j)* F.block(0, 0, j, 1);
 
 				// Update tau_out
 				tau_now = tau_now + tau;
@@ -366,14 +388,14 @@ namespace KIOPS {
 
 		out_m = m;
 
-		std::cout << "V:\n";
+		/*std::cout << "V:\n";
 		std::cout << V << std::endl;
 
 		std::cout << "H:\n";
-		std::cout << H << std::endl;
+		std::cout << H << std::endl;*/
 
 
-		return w.col(numSteps - 1);
+		return w;
 	}
 }//end namespace KIOPS
 

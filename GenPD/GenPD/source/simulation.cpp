@@ -233,6 +233,9 @@ void Simulation::Update()
 		case EXPONENTIAL_ROSENBROCK_EULER:
 			integrateERE();
 			break;
+		case EPIRK:
+			integrateEPIRK();
+			break;
 		}
 
 		// damping
@@ -1683,13 +1686,141 @@ void Simulation::integrateERE()
 	SparseMatrix K;
 	evaluateHessianPureConstraint(x, K);
 	
+	int use_KIOPS = 1;
 
-	auto wpr = ERE_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix, &force, &m_mesh->m_current_positions, &m_mesh->m_current_velocities);
-	wpr.ERE_one_step(m_h);
-	
+	if (!use_KIOPS) {
+
+		auto wpr = ERE_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix, &force, &m_mesh->m_current_positions, &m_mesh->m_current_velocities);
+		wpr.ERE_one_step(m_h);
+	}
+	else {
+
+		auto J = OIKD_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix,1);
+
+		int n = x.size();
+		VectorX xv(2 * n);
+		xv.head(n) = x;
+		xv.tail(n) = v;
+
+		VectorX dxv(2*n);
+		dxv.head(n).setZero();
+		dxv.tail(n) = m_mesh->m_inv_mass_matrix*(force+K*x);
+
+		VectorX z2n(2 * n);
+		z2n.setZero();
+
+		Matrix B(2 * n, 2);
+		B.col(0)=xv;
+		B.col(1) = dxv;
+
+		int out_m;
+		VectorX phi_1_dt_J_xv = KIOPS::KIOPS(out_m, std::vector<ScalarType>{m_h}, J, B,1e-7f);
+		//printf("m:%d\n", out_m);
+		x = 1 * phi_1_dt_J_xv.head(n);
+		v = 1 * phi_1_dt_J_xv.tail(n);
+	}
 	//v = v + m_h * m_mesh->m_inv_mass_matrix*force;
 	//x = x + m_h * v;
 	
+}
+
+void Simulation::integrateEPIRK()
+{
+	//rosenbrock-Euler Method
+	VectorX& x = m_mesh->m_current_positions;
+	VectorX& v = m_mesh->m_current_velocities;
+
+	VectorX force;
+	evaluateGradientPureConstraint(x, m_external_force, force);
+	force -= m_external_force;
+	force = -force;
+
+	SparseMatrix K;
+	evaluateHessianPureConstraint(x, K);
+
+	int useEPIRKs4 = 1;
+
+	if (!useEPIRKs4) {
+
+		auto wpr = ERE_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix, &force, &m_mesh->m_current_positions, &m_mesh->m_current_velocities);
+		wpr.ERE_one_step(m_h);
+	}
+	else {
+
+		//dt*J
+		auto dtJ = OIKD_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix, m_h);
+		auto J = OIKD_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix,1);
+
+		int n = x.size();
+		VectorX x_old(2 * n);
+		x_old.head(n) = x;
+		x_old.tail(n) = v;
+
+		VectorX ext_f(2 * n);
+		//ext_f: first part: dx/dt
+		ext_f.head(n) = x_old.tail(n);
+		//ext_f: second part: dv/dt = f/m
+		//this force is evaluated at x_old, last timestep.
+		ext_f.tail(n) = m_mesh->m_inv_mass_matrix*(force);
+
+		Matrix B(2 * n, 2);
+		B.col(0).setZero();
+		B.col(1) = ext_f;
+
+		int out_m;
+		Matrix Un2Un3 = KIOPS::KIOPS(out_m, std::vector<ScalarType>{1.f/9, 1.f/8}, dtJ, B, 1e-7f);
+		
+		VectorX Un2 = x_old + m_h*Un2Un3.col(1);//the 1/8;
+		VectorX Un3 = x_old + m_h*Un2Un3.col(0);//the 1/9
+
+		//get F(Un2), F(Un3)
+		VectorX forceUn2;
+		evaluateGradientPureConstraint(Un2.head(n), m_external_force, forceUn2);
+		forceUn2 -= m_external_force;
+		forceUn2 = -forceUn2;
+
+		VectorX forceUn3;
+		evaluateGradientPureConstraint(Un3.head(n), m_external_force, forceUn3);
+		forceUn3 -= m_external_force;
+		forceUn3 = -forceUn3;
+
+		//concatenate
+		VectorX ext_Fn2(2 * n);
+		ext_Fn2.head(n)=Un2.tail(n);
+		ext_Fn2.tail(n) = m_mesh->m_inv_mass_matrix*forceUn2;
+
+		VectorX ext_Fn3(2 * n);
+		ext_Fn3.head(n) = Un3.tail(n);
+		ext_Fn3.tail(n) = m_mesh->m_inv_mass_matrix*forceUn3;
+
+		//linear residual
+		VectorX Rn2 = ext_Fn2 - dtJ(Un2Un3.col(1)) - ext_f;
+		VectorX Rn3 = ext_Fn3 - dtJ(Un2Un3.col(0)) - ext_f;
+
+		//assemble u...
+		Matrix u(2 * n, 5);
+		u.col(0).setZero();
+		u.col(1) = m_h * ext_f;
+		u.col(2).setZero();
+		u.col(3) = m_h * (Rn2 * 1892 + 1458 * (Rn3 - 2 * Rn2));
+		u.col(4) = m_h * (-42336 * Rn2 - 34992 * (Rn3 - 2 * Rn2));
+
+		int last_out_m;
+		VectorX temp_finalX = KIOPS::KIOPS(last_out_m, std::vector<ScalarType>{1.0}, dtJ, u.leftCols(5).eval(), 1e-7f, out_m);
+
+		VectorX x_new = x_old + temp_finalX;
+		
+		x = x_new.head(n);
+		v = x_new.tail(n);
+
+
+
+
+		
+
+	}
+	//v = v + m_h * m_mesh->m_inv_mass_matrix*force;
+	//x = x + m_h * v;
 }
 
 void Simulation::integrateImplicitMethod()

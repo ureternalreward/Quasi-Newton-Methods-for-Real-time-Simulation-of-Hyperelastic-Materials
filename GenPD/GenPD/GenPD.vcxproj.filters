@@ -247,6 +247,9 @@
     <ClInclude Include="source\Exponential_Wrapper.h">
       <Filter>Source Files\math</Filter>
     </ClInclude>
+    <ClInclude Include="source\KIOPS.h">
+      <Filter>Source Files\math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="Natvis\EigenVis.natvis">

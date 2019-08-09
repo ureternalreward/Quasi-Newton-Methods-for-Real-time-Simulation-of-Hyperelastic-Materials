@@ -3,6 +3,7 @@
 class for matrix exponential calculation
 
 */
+#include "KIOPS.h"
 #include "math_headers.h"
 #include "Eigen/Dense"
 #include "unsupported/Eigen/MatrixFunctions"
@@ -95,6 +96,14 @@ struct expokit {
 				mx = mb + k1;
 				//Exponential of the Core
 				F = (sgn*t_step*H.topLeftCorner(mx, mx)).exp();
+				/*std::cout << "first 10 V vector:\n";
+				std::cout << V.block(0,0,10,10) << std::endl;
+				std::cout << "expokit result:\n";
+				std::cout << "H:\n";
+				std::cout << H.block(0, 0, mx, mx) << std::endl;
+				std::cout << "F:\n";
+				std::cout << F << std::endl;*/
+
 				if (k1 == 0) {
 					err_loc = btol;
 					break;
@@ -144,7 +153,7 @@ struct expokit {
 
 			err_loc = err_loc > rndoff ? err_loc : rndoff;
 			s_error = s_error + err_loc;
-			t_now += t_step;
+			//t_now += t_step;
 		}//end while t_now<t_out
 		return w;
 
@@ -172,14 +181,30 @@ struct ERE_wrapper {
 	void ERE_one_step(ScalarType dt) {
 		
 		int n = (*x).size();
+#define use_kiops
+
+#ifndef use_kiops
 		VectorX xv1(2*n+1);
-		xv1.head(n) = *x;
-		xv1.segment(n, n) = *v;
+#else 
+		Matrix xv1(2 * n + 1, 1);
+#endif
+		xv1.block(0,0,n,1) = *x;
+		xv1.block(n,0,n,1) = *v;
 		xv1(2 * n) = 1;
+		VectorX result=xv1;
+
+#ifndef use_kiops
+		result = expokit::expm(dt, *this, xv1.eval(), 3000.f, 35, 1e-5f);//dt * (this->operator()(xv1.eval()));
+#else
+		int out_m;
+		result = KIOPS::KIOPS(out_m, std::vector<ScalarType>{dt}, *this, xv1.eval(), 1e-7f);//dt * (this->operator()(xv1.eval()));
+		//result =  expokit::expm(dt, *this, xv1.col(0).eval(), 3000.f, 35, 1e-5f);
+		//printf("Difference:%f\n", (result - result2).norm());
 		
-		VectorX result =  expokit::expm(dt, *this, xv1.eval(),3000.f,30,1e-5f);//dt * (this->operator()(xv1.eval()));
-		*x = result.head(n).eval();
-		*v = result.segment(n, n).eval();
+#endif
+		
+		*x = result.block(0, 0, n, 1);
+		*v = result.block(n, 0, n, 1);
 		//printf("number of K evaluation: %d\n", n_K_evals);
 	}
 
@@ -229,3 +254,47 @@ struct ERE_wrapper {
 	int n_K_evals;
 };
 
+struct OIKD_wrapper {
+
+	OIKD_wrapper(SparseMatrix * _in_K, SparseMatrix * _in_D, SparseMatrix* _in_invM, ScalarType dt) {
+		K = _in_K;
+		D = _in_D;
+		invM = _in_invM;
+		_dt = dt;
+	}
+
+	VectorX operator()(const VectorX & _in) {
+		//matrix structure:
+		/*
+			   0        dt*I          
+			-dt*inv(M)K -dt*inv(M)D     
+			                     
+			Multiply x
+					 v
+
+			input: _in
+
+			result = dt*v
+					 -dt*invMK*x-dt*invMD*v 
+		*/
+		int n = (_in).size()/2;
+		VectorX result(2*n);
+		result.head(n) = _in.segment(n, n);
+		if (D) {
+			result.segment(n, n) = (-*invM)*(*K)*_in.head(n) - (*invM)*(*D)*_in.segment(n, n);
+		}
+		else {
+			//no damping
+			result.segment(n, n) = (-*invM)*(*K)*_in.head(n);
+		}
+
+		return _dt*result;
+	}
+
+	//pointer to stiffness matrix
+	SparseMatrix* K;
+	//pointer to Damping matrix, by default NULL
+	SparseMatrix* D;
+	SparseMatrix* invM;
+	ScalarType _dt;
+};
