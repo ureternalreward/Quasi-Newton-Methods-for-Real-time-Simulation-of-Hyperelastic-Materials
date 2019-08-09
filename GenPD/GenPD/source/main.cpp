@@ -117,6 +117,7 @@ void TW_CALL load_handle(void*);
 void TW_CALL reset_handle(void*);
 void TW_CALL reset_simulation(void*);
 void TW_CALL step_through(void*);
+void TW_CALL analyze_error(void*);
 void TW_CALL reset_camera(void*);
 void TW_CALL set_partial_material_property(void*);
 void TW_CALL matlab_reset_current_data(void*);
@@ -892,6 +893,29 @@ void TW_CALL step_through(void*)
 	g_mesh->Update();
 
     g_current_frame++;
+}
+
+/*Function analyze_error
+	Compare the simulation result to the ground truth
+*/
+void TW_CALL analyze_error(void *)
+{
+	g_scene->Update(g_simulation->Timestep(), g_current_frame);
+
+	g_simulation->AnimateHandle(g_current_frame);
+
+	// enable step mode
+	g_simulation->SetStepMode(true);
+	// update cloth
+	g_simulation->AnalyzeError();
+	// disable step mode
+	g_simulation->SetStepMode(false);
+
+	g_mesh->Update();
+
+	g_current_frame++;
+	
+	g_mesh->Update();
 }
 
 void grab_screen(void)

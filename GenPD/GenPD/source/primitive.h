@@ -66,7 +66,7 @@ public:
 
 	unsigned int& StartFrame() { return m_start_moving_frame; }
 
-	virtual void Update(ScalarType h, unsigned int current_frame = -1) { if (current_frame > m_start_moving_frame) { m_pos += h*m_vel; } }
+	virtual void Update(ScalarType h, unsigned int current_frame = -1) { if (current_frame > m_start_moving_frame) { m_pos += float(h)*m_vel; } }
 	virtual inline glm::vec3& Vel() { return m_vel; }
 
 	virtual void move_to(const glm::vec3& target) { m_pos = target; }

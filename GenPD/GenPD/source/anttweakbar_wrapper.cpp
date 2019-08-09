@@ -75,6 +75,7 @@ extern void TW_CALL load_handle(void*);
 extern void TW_CALL reset_handle(void*);
 extern void TW_CALL reset_simulation(void*);
 extern void TW_CALL step_through(void*);
+extern void TW_CALL analyze_error(void*);
 extern void TW_CALL reset_camera(void*);
 extern void TW_CALL set_partial_material_property(void*);
 extern void TW_CALL matlab_reset_current_data(void*);
@@ -121,6 +122,8 @@ void AntTweakBarWrapper::Init()
 	// state control
 	TwAddVarRW(m_control_panel_bar, "Pause", TwType(sizeof(bool)), &(g_pause), "group='State Control'");
 	TwAddButton(m_control_panel_bar, "Step Once", step_through, NULL, "group='State Control' ");
+	TwAddButton(m_control_panel_bar, "Analyze Error", analyze_error, NULL, "group='State Control' ");
+	TwAddVarRW(m_control_panel_bar, "Ground Truth Time", TW_TYPE_SCALAR_TYPE, &g_simulation->m_gt_timestamp, " min=0.0000001");
 	TwAddVarRW(m_control_panel_bar, "Record", TwType(sizeof(bool)), &(g_record), "group='State Control'");
 	TwAddVarRW(m_control_panel_bar, "Has End", TwType(sizeof(bool)), &(g_recording_limit), "group='Recording'");
 	TwAddVarRW(m_control_panel_bar, "Total Frames", TW_TYPE_INT32, &(g_total_frame), "group='Recording'");

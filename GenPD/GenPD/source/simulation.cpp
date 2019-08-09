@@ -42,6 +42,9 @@
 extern MatlabDebugger *g_debugger;
 #endif
 
+//external main function
+extern void TW_CALL reset_simulation(void*);
+
 //#define USE_STL_QUEUE_IMPLEMENTATION
 //#define OUTPUT_LS_ITERATIONS
 #ifdef OUTPUT_LS_ITERATIONS
@@ -114,6 +117,7 @@ Simulation::Simulation()
 	m_verbose_show_optimization_time = false;
 	m_verbose_show_energy = false;
 	m_verbose_show_factorization_warning = true;
+	ground_truth_calculated = false;
 }
 
 Simulation::~Simulation()
@@ -278,6 +282,143 @@ void Simulation::Draw(const VBO& vbos)
 	{
 		it->Draw(vbos, (it->ID() == m_selected_handle_id));
 	}
+}
+
+void Simulation::AnalyzeError()
+{
+	if (!ground_truth_calculated) {
+		CalculateGroundTruth();
+	}
+	
+	
+	//reset the simulation
+	reset_simulation(NULL);
+
+	//simulate until the ground truth time
+
+	ScalarType time_now = 0;
+
+	ScalarType old_h = m_h;
+	m_h = m_h / m_sub_stepping;
+
+	int est_number_steps = int(m_gt_timestamp / (old_h) * m_sub_stepping);
+
+	//estimate new m_h
+	m_h = m_gt_timestamp / est_number_steps;
+
+	// time_now + m_h < m_gt_timestamp;
+	for (int i = 0; i < est_number_steps;i++) {
+		// update inertia term
+		computeConstantVectorsYandZ();
+
+		// update
+		switch (m_integration_method)
+		{
+		case INTEGRATION_QUASI_STATICS:
+		case INTEGRATION_IMPLICIT_EULER:
+		case INTEGRATION_IMPLICIT_BDF2:
+		case INTEGRATION_IMPLICIT_MIDPOINT:
+		case INTEGRATION_IMPLICIT_NEWMARK_BETA:
+			integrateImplicitMethod();
+			break;
+		case EXPLICIT_SYMPLECTIC:
+			integrateExplicitSymplectic();
+			break;
+		case EXPONENTIAL_ROSENBROCK_EULER:
+			integrateERE();
+			break;
+		case EPIRK:
+			integrateEPIRK();
+			break;
+		}
+
+
+		time_now += m_h;
+	}
+
+	/*
+	//if there is a gap in the last step.
+	if (time_now < m_gt_timestamp) {
+		m_h = m_gt_timestamp - time_now;
+
+		// update inertia term
+		computeConstantVectorsYandZ();
+
+		// update
+		switch (m_integration_method)
+		{
+		case INTEGRATION_QUASI_STATICS:
+		case INTEGRATION_IMPLICIT_EULER:
+		case INTEGRATION_IMPLICIT_BDF2:
+		case INTEGRATION_IMPLICIT_MIDPOINT:
+		case INTEGRATION_IMPLICIT_NEWMARK_BETA:
+			integrateImplicitMethod();
+			break;
+		case EXPLICIT_SYMPLECTIC:
+			integrateExplicitSymplectic();
+			break;
+		case EXPONENTIAL_ROSENBROCK_EULER:
+			integrateERE();
+			break;
+		case EPIRK:
+			integrateEPIRK();
+			break;
+		}
+		time_now += m_h;
+	}
+	*/
+	m_h = old_h;
+	//analyze the error
+
+	ScalarType x_difference = (m_mesh->m_current_positions - x_gt).norm();
+	ScalarType v_difference = (m_mesh->m_current_velocities - v_gt).norm();
+
+	printf("log dt:%f, log err: %f, log xerr: %f, log verr: %f\n",
+		std::log2(old_h / m_sub_stepping),
+		std::log2(x_difference + v_difference),
+		std::log2(x_difference),
+		std::log2(v_difference));
+	printf(" dt:%f,  err: %f,  xerr: %f,  verr: %f\n",
+		(old_h / m_sub_stepping),
+		(x_difference + v_difference),
+		(x_difference),
+		(v_difference));
+	//reset the simulation
+	//reset_simulation(NULL);
+}
+
+void Simulation::CalculateGroundTruth()
+{
+	//calculate the ground truth result
+	//reset the simulation
+	reset_simulation(NULL);
+
+	//keep old m_h
+	ScalarType old_h = m_h;
+
+	//m_h = m_h / m_sub_stepping;
+
+	int est_number_steps = int(m_gt_timestamp / (old_h)*10240);
+	
+
+	//estimate new m_h
+	m_h = m_gt_timestamp / est_number_steps;
+
+
+
+	//evolve the system using symplectic euler with small stepsizes
+	for (int i = 0; i < est_number_steps; i++) {
+		integrateExplicitSymplectic();
+	}
+
+	//record the ground truth
+	x_gt = m_mesh->m_current_positions;
+	v_gt = m_mesh->m_current_velocities;
+	
+	//reset the simulation
+	//reset_simulation(NULL);
+	m_h = old_h;
+	ground_truth_calculated = false;
 }
 
 void Simulation::GetOverlayChar(char* overlay, unsigned int size)
@@ -1714,7 +1855,7 @@ void Simulation::integrateERE()
 		B.col(1) = dxv;
 
 		int out_m;
-		VectorX phi_1_dt_J_xv = KIOPS::KIOPS(out_m, std::vector<ScalarType>{m_h}, J, B,1e-7f);
+		VectorX phi_1_dt_J_xv = KIOPS::KIOPS(out_m, std::vector<ScalarType>{m_h}, J, B,ScalarType(1e-7));
 		//printf("m:%d\n", out_m);
 		x = 1 * phi_1_dt_J_xv.head(n);
 		v = 1 * phi_1_dt_J_xv.tail(n);
@@ -1746,7 +1887,6 @@ void Simulation::integrateEPIRK()
 		wpr.ERE_one_step(m_h);
 	}
 	else {
-
 		//dt*J
 		auto dtJ = OIKD_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix, m_h);
 		auto J = OIKD_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix,1);
@@ -1768,7 +1908,7 @@ void Simulation::integrateEPIRK()
 		B.col(1) = ext_f;
 
 		int out_m;
-		Matrix Un2Un3 = KIOPS::KIOPS(out_m, std::vector<ScalarType>{1.f/9, 1.f/8}, dtJ, B, 1e-7f);
+		Matrix Un2Un3 = KIOPS::KIOPS(out_m, std::vector<ScalarType>{1.f/9, 1.f/8}, dtJ, B, ScalarType(1e-7f));
 		
 		VectorX Un2 = x_old + m_h*Un2Un3.col(1);//the 1/8;
 		VectorX Un3 = x_old + m_h*Un2Un3.col(0);//the 1/9
@@ -1806,7 +1946,7 @@ void Simulation::integrateEPIRK()
 		u.col(4) = m_h * (-42336 * Rn2 - 34992 * (Rn3 - 2 * Rn2));
 
 		int last_out_m;
-		VectorX temp_finalX = KIOPS::KIOPS(last_out_m, std::vector<ScalarType>{1.0}, dtJ, u.leftCols(5).eval(), 1e-7f, out_m);
+		VectorX temp_finalX = KIOPS::KIOPS(last_out_m, std::vector<ScalarType>{1.0}, dtJ, u.leftCols(5).eval(), ScalarType(1e-7), out_m);
 
 		VectorX x_new = x_old + temp_finalX;
 		

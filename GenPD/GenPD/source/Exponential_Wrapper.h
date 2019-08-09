@@ -197,7 +197,7 @@ struct ERE_wrapper {
 		result = expokit::expm(dt, *this, xv1.eval(), 3000.f, 35, 1e-5f);//dt * (this->operator()(xv1.eval()));
 #else
 		int out_m;
-		result = KIOPS::KIOPS(out_m, std::vector<ScalarType>{dt}, *this, xv1.eval(), 1e-7f);//dt * (this->operator()(xv1.eval()));
+		result = KIOPS::KIOPS(out_m, std::vector<ScalarType>{dt}, *this, xv1.eval(), ScalarType(1e-7));//dt * (this->operator()(xv1.eval()));
 		//result =  expokit::expm(dt, *this, xv1.col(0).eval(), 3000.f, 35, 1e-5f);
 		//printf("Difference:%f\n", (result - result2).norm());
 		

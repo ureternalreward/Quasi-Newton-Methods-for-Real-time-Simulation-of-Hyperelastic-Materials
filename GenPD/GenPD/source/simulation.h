@@ -107,6 +107,10 @@ public:
 	void UpdateAnimation(const int fn);
 	void Update();
 	void Draw(const VBO& vbos);
+	
+	//Error Analysis
+	void AnalyzeError();
+	void CalculateGroundTruth();
 
 	void GetOverlayChar(char* overlay, unsigned int overlay_length = 255);
 
@@ -259,6 +263,12 @@ protected:
 	VectorX m_vn_minus_one;
 	VectorX m_qn_minus_two;
 	VectorX m_vn_minus_two;
+
+	//ground truth variables
+	bool ground_truth_calculated;
+	ScalarType m_gt_timestamp;//ground truth time
+	VectorX x_gt;
+	VectorX v_gt;
 
 	// constant term in optimization:
 	// 0.5(x-y)^2 M (x-y) + (c) * h^2 * E(x) - h^2 * x^T * z;
