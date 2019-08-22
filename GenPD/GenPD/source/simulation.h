@@ -53,6 +53,7 @@ class AntTweakBarWrapper;
 
 typedef enum
 {
+	RK4,
 	EPIRK,
 	EXPONENTIAL_ROSENBROCK_EULER,
 	EXPLICIT_SYMPLECTIC,
@@ -202,6 +203,10 @@ protected:
 	unsigned int m_sub_stepping; // 
 	bool m_step_mode;
 
+	//Rayleigh damping coef
+	ScalarType m_rayleigh_alpha;
+	ScalarType m_rayleigh_beta;
+
 	// simulation constants
 	ScalarType m_gravity_constant;
 	MaterialType m_material_type;
@@ -263,6 +268,9 @@ protected:
 	VectorX m_vn_minus_one;
 	VectorX m_qn_minus_two;
 	VectorX m_vn_minus_two;
+
+	//for exponential method subspace size
+	int m_krylov_size;
 
 	//ground truth variables
 	bool ground_truth_calculated;
@@ -375,6 +383,7 @@ private:
 
 	void integrateImplicitMethod();
 	void integrateExplicitSymplectic();
+	void integrateRK4();
 	void integrateERE();
 	void integrateEPIRK();
 	// all those "OneIteration" functions will be called in a loop

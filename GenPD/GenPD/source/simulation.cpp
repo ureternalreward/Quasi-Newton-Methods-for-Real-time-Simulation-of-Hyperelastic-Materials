@@ -175,6 +175,9 @@ void Simulation::Reset()
 	// collision
 	m_collision_constraints.clear();
 
+	// krylov subspace
+	m_krylov_size = 80;
+
 #ifdef OUTPUT_LS_ITERATIONS
 	g_total_ls_iterations = 0;
 	g_total_iterations = 0;
@@ -239,6 +242,9 @@ void Simulation::Update()
 			break;
 		case EPIRK:
 			integrateEPIRK();
+			break;
+		case RK4:
+			integrateRK4();
 			break;
 		}
 
@@ -330,6 +336,9 @@ void Simulation::AnalyzeError()
 		case EPIRK:
 			integrateEPIRK();
 			break;
+		case RK4:
+			integrateRK4();
+			break;
 		}
 
 
@@ -398,7 +407,7 @@ void Simulation::CalculateGroundTruth()
 
 	//m_h = m_h / m_sub_stepping;
 
-	int est_number_steps = int(m_gt_timestamp / (old_h)*10240);
+	int est_number_steps = int(m_gt_timestamp / (old_h)*1280);
 	
 
 	//estimate new m_h
@@ -408,7 +417,8 @@ void Simulation::CalculateGroundTruth()
 
 	//evolve the system using symplectic euler with small stepsizes
 	for (int i = 0; i < est_number_steps; i++) {
-		integrateExplicitSymplectic();
+		//integrateExplicitSymplectic();
+		integrateRK4();
 	}
 
 	//record the ground truth
@@ -1813,6 +1823,53 @@ void Simulation::integrateExplicitSymplectic()
 	x = x + m_h * v;
 }
 
+void Simulation::integrateRK4()
+{
+	VectorX& x1 = m_mesh->m_current_positions;
+	VectorX& v1 = m_mesh->m_current_velocities;
+
+	//1 k1 = (v1,force1)
+	VectorX force1;
+	evaluateGradientPureConstraint(x1, m_external_force, force1);
+	force1 -= m_external_force;
+	force1 = -force1;
+
+	VectorX v2 = v1 + m_h/2 * m_mesh->m_inv_mass_matrix*force1;
+	VectorX x2 = x1 + m_h/2 * v1;
+
+	//2 k2 = (v2, force2)
+	VectorX force2;
+	evaluateGradientPureConstraint(x2, m_external_force, force2);
+	force2 -= m_external_force;
+	force2 = -force2;
+
+	VectorX v3 = v1 + m_h / 2 * m_mesh->m_inv_mass_matrix*force2;
+	VectorX x3 = x1 + m_h / 2 * v2;
+
+	//3 k3 = (v3, force3)
+	VectorX force3;
+	evaluateGradientPureConstraint(x3, m_external_force, force3);
+	force3 -= m_external_force;
+	force3 = -force3;
+
+	VectorX v4 = v1 + m_h  * m_mesh->m_inv_mass_matrix*force3;
+	VectorX x4 = x1 + m_h  * v3;
+
+	//4 k4 = (v3,force4)
+	VectorX force4;
+	evaluateGradientPureConstraint(x4, m_external_force, force4);
+	force4 -= m_external_force;
+	force4 = -force4;
+
+	//final
+	VectorX vf = v1 + 1.0 / 6.0 * m_h* m_mesh->m_inv_mass_matrix* (force1 + 2 * force2 + 2 * force3 + force4);
+ 	VectorX xf = x1 + 1.0 / 6.0 * m_h* (v1 + 2 * v2 + 2 * v3 + v4);
+
+	x1 = xf;
+	v1 = vf;
+
+}
+
 void Simulation::integrateERE()
 {
 	//rosenbrock-Euler Method
@@ -1871,13 +1928,16 @@ void Simulation::integrateEPIRK()
 	VectorX& x = m_mesh->m_current_positions;
 	VectorX& v = m_mesh->m_current_velocities;
 
+	SparseMatrix K;
+	evaluateHessianPureConstraint(x, K);
+	SparseMatrix damping_matrix = m_rayleigh_alpha * K + m_rayleigh_beta * m_mesh->m_mass_matrix;
+
 	VectorX force;
 	evaluateGradientPureConstraint(x, m_external_force, force);
 	force -= m_external_force;
-	force = -force;
+	force = -force-damping_matrix*v;
 
-	SparseMatrix K;
-	evaluateHessianPureConstraint(x, K);
+	
 
 	int useEPIRKs4 = 1;
 
@@ -1888,12 +1948,13 @@ void Simulation::integrateEPIRK()
 	}
 	else {
 		//dt*J
+		ScalarType err_eps = 1e-16;
 		auto dtJ = OIKD_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix, m_h);
-		auto J = OIKD_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix,1);
-
+		auto J = OIKD_wrapper(&K, NULL, &m_mesh->m_inv_mass_matrix, 1);
+		const VectorX xr = m_mesh->m_restpose_positions*0;
 		int n = x.size();
 		VectorX x_old(2 * n);
-		x_old.head(n) = x;
+		x_old.head(n) = x-xr;
 		x_old.tail(n) = v;
 
 		VectorX ext_f(2 * n);
@@ -1906,23 +1967,25 @@ void Simulation::integrateEPIRK()
 		Matrix B(2 * n, 2);
 		B.col(0).setZero();
 		B.col(1) = ext_f;
+		TimerWrapper EPIRK_timer;
+		EPIRK_timer.Tic();
+		Matrix Un2Un3 = KIOPS::KIOPS(m_krylov_size, std::vector<ScalarType>{1.f/9, 1.f/8}, dtJ, B, err_eps,10);
+		EPIRK_timer.Toc();
+		//EPIRK_timer.Report("KIOPS 1/8 1/9");
 
-		int out_m;
-		Matrix Un2Un3 = KIOPS::KIOPS(out_m, std::vector<ScalarType>{1.f/9, 1.f/8}, dtJ, B, ScalarType(1e-7f));
-		
 		VectorX Un2 = x_old + m_h*Un2Un3.col(1);//the 1/8;
 		VectorX Un3 = x_old + m_h*Un2Un3.col(0);//the 1/9
 
 		//get F(Un2), F(Un3)
 		VectorX forceUn2;
-		evaluateGradientPureConstraint(Un2.head(n), m_external_force, forceUn2);
+		evaluateGradientPureConstraint(Un2.head(n)+xr, m_external_force, forceUn2);
 		forceUn2 -= m_external_force;
-		forceUn2 = -forceUn2;
+		forceUn2 = -forceUn2-damping_matrix*Un2.tail(n);
 
 		VectorX forceUn3;
-		evaluateGradientPureConstraint(Un3.head(n), m_external_force, forceUn3);
+		evaluateGradientPureConstraint(Un3.head(n)+xr, m_external_force, forceUn3);
 		forceUn3 -= m_external_force;
-		forceUn3 = -forceUn3;
+		forceUn3 = -forceUn3-damping_matrix*Un3.tail(n);
 
 		//concatenate
 		VectorX ext_Fn2(2 * n);
@@ -1944,16 +2007,16 @@ void Simulation::integrateEPIRK()
 		u.col(2).setZero();
 		u.col(3) = m_h * (Rn2 * 1892 + 1458 * (Rn3 - 2 * Rn2));
 		u.col(4) = m_h * (-42336 * Rn2 - 34992 * (Rn3 - 2 * Rn2));
-
-		int last_out_m;
-		VectorX temp_finalX = KIOPS::KIOPS(last_out_m, std::vector<ScalarType>{1.0}, dtJ, u.leftCols(5).eval(), ScalarType(1e-7), out_m);
-
+		EPIRK_timer.Tic();
+		VectorX temp_finalX = KIOPS::KIOPS(m_krylov_size, std::vector<ScalarType>{1.0}, dtJ, u.leftCols(5).eval(), err_eps, 10);
+		EPIRK_timer.Toc();
+		//EPIRK_timer.Report("KIOPS full");
 		VectorX x_new = x_old + temp_finalX;
 		
-		x = x_new.head(n);
+		x = x_new.head(n)+xr;
 		v = x_new.tail(n);
 
-
+		
 
 
 		
@@ -3410,7 +3473,11 @@ ScalarType Simulation::linearSolve(VectorX& x, const SparseMatrix& A, const Vect
 	{
 		x.resize(b.size());
 		x.setZero();
+		TimerWrapper cgtimer;
+		cgtimer.Tic();
 		residual = conjugateGradientWithInitialGuess(x, A, b, m_iterative_solver_max_iteration);
+		cgtimer.Toc();
+		cgtimer.Report("CG");
 	}
 		break;
 	default:
@@ -3431,9 +3498,11 @@ ScalarType Simulation::conjugateGradientWithInitialGuess(VectorX& x, const Spars
 	Ap.resize(x.size());
 	ScalarType alpha;
 
+	int num_multi = 0;
 	for (unsigned int i = 1; i != max_it; ++i)
 	{
 		Ap = A*p;
+		num_multi++;
 		alpha = rsold / p.dot(Ap);
 		x = x + alpha * p;
 
@@ -3446,7 +3515,7 @@ ScalarType Simulation::conjugateGradientWithInitialGuess(VectorX& x, const Spars
 		p = r + (rsnew / rsold)*p;
 		rsold = rsnew;
 	}
-
+	printf("CG iteration number:%d\n", num_multi);
 	return sqrt(rsnew);
 }
 

@@ -42,7 +42,9 @@
 
 #include "Eigen/Dense"
 #include <vector>
+#include "timer_wrapper.h"
 
+//#define TIMING
 namespace KIOPS {
 
 	/*Function KIOPS
@@ -52,10 +54,10 @@ namespace KIOPS {
 		std::vector<Real> tau_out,
 		Mat_type& A_in,
 		const Eigen::Matrix<Real, Eigen::Dynamic, Eigen::Dynamic>& u_in,
-		Real tol = 1.0e-7,
+		Real tol = 1.0e-16,
 		int m_init = 10,
-		int mmin = 10,
-		int mmax = 50) {
+		int mmin = 4,
+		int mmax = 120) {
 
 		using Mat = Eigen::Matrix < Real, Eigen::Dynamic, Eigen::Dynamic >;
 		//dimension
@@ -78,6 +80,10 @@ namespace KIOPS {
 		int orth_len = mmax;
 
 		//size of the Krylov subspace
+
+		if (!(m_init > mmin)) {
+			m_init = mmin;
+		}
 		int m = std::max(mmin, std::min(m_init, mmax));
 
 		//preallocate matrix
@@ -161,6 +167,20 @@ namespace KIOPS {
 		//norm of w
 		Real beta = 0;
 		Real err = 0;
+#ifdef TIMING
+		TimerWrapper timer,timer_ortho,timer_exponential,timer_A, timer_uflip;
+		timer.Tic();
+		timer.Pause();
+		timer_ortho.Tic();
+		timer_ortho.Pause();
+		timer_exponential.Tic();
+		timer_exponential.Pause();
+		timer_A.Tic();
+		timer_A.Pause();
+		timer_uflip.Tic();
+		timer_uflip.Pause();
+		int n_mat_mult = 0;
+#endif
 		while (tau_now < tau_end) {
 			// Compute necessary starting information
 			if (j == 0) {
@@ -184,18 +204,40 @@ namespace KIOPS {
 			}//end j=0
 			
 			//incomplete orthogonalization process
+			
+			
 			while (j < m) {
 				// Augmented matrix - vector product
-				V.block(0, j + 1, n, 1) = A_in(V.block(0, j, n, 1)) + u_flip * V.block(n, j, p, 1);
+#ifdef TIMING
+				timer.Resume();
+				timer_A.Resume();
+#endif
+				V.block(0, j + 1, n, 1) = A_in(V.block(0, j, n, 1));
+#ifdef TIMING
+				timer_A.Pause();
+				n_mat_mult++;
+				
+				timer_uflip.Resume();
+#endif
+				V.block(0, j + 1, n, 1) += u_flip * V.block(n, j, p, 1);
+#ifdef TIMING
+				timer_uflip.Pause();
+				timer.Pause();
+#endif
 				V.block(n, j + 1, p - 1, 1) = V.block(n + 1, j, p - 1, 1).eval();
 				V(n + p - 1, j + 1) = 0;
 
 				//Modified Gram - Schmidt
+#ifdef TIMING
+				timer_ortho.Resume();
+#endif
 				for (int i = std::max(0, j - orth_len + 1); i < j + 1; i++) {
 					H(i, j) = V.col(i).dot(V.col(j + 1));
 					V.col(j + 1) -= H(i, j) * V.col(i);
 				}
-
+#ifdef TIMING
+				timer_ortho.Pause();
+#endif
 				//end
 
 				Real nrm = V.col(j + 1).norm();
@@ -211,10 +253,11 @@ namespace KIOPS {
 				H(j + 1, j) = nrm;
 				V.col(j + 1) *= (1 / nrm);
 
+				
 				krystep = krystep + 1;
 				j = j + 1;
 			}//end j<m
-
+			
 			// To obtain the phi_1 function which is needed for error estimate
 			H(0, j) = 1;
 			// Save h_j + 1, j and remove it temporarily to compute the exponential of H
@@ -222,7 +265,13 @@ namespace KIOPS {
 			H(j, j - 1) = 0;
 
 			// Compute the exponential of the augmented matrix
+#ifdef TIMING
+			timer_exponential.Resume();
+#endif
 			Mat F = (sgn * tau * H.block(0, 0, j + 1, j + 1)).exp();
+#ifdef TIMING
+			timer_exponential.Pause();
+#endif
 			/*std::cout << "\nKIOPS result:\n";
 			std::cout << "first 10 V vector:\n";
 			std::cout << V.block(0, 0, 10, 10) << std::endl;
@@ -307,7 +356,7 @@ namespace KIOPS {
 
 				if (isnan(omega)) {
 					m_opt = m;
-					tau_opt = tau / 5;
+ 					tau_opt = tau / 5;
 				}
 
 				if (j == mmax) {
@@ -393,8 +442,19 @@ namespace KIOPS {
 
 		std::cout << "H:\n";
 		std::cout << H << std::endl;*/
-
-
+#ifdef TIMING
+		printf("number of multiplication = %d\n", n_mat_mult);
+		timer_A.Toc();
+		timer_A.Report("A*v");
+		timer_uflip.Toc();
+		timer_uflip.Report("uflip");
+		timer.Toc();
+		timer.Report("build subspace");
+		timer_ortho.Toc();
+		timer_ortho.Report("orthogonalization");
+		timer_exponential.Toc();
+		timer_exponential.Report("exponential");
+#endif
 		return w;
 	}
 }//end namespace KIOPS

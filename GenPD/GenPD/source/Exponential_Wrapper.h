@@ -260,6 +260,16 @@ struct OIKD_wrapper {
 		K = _in_K;
 		D = _in_D;
 		invM = _in_invM;
+		if (D) {
+			//invMK = (-*invM)*(*K);
+			//invMD = (-*invM)*(*D);
+			invMK_row = (*invM)*(*K);
+			invMD_row = (*invM)*(*D);
+		}
+		else {
+			//invMK = (-*invM)*(*K);
+			invMK_row = (*invM)*(*K);
+		}
 		_dt = dt;
 	}
 
@@ -280,12 +290,17 @@ struct OIKD_wrapper {
 		int n = (_in).size()/2;
 		VectorX result(2*n);
 		result.head(n) = _in.segment(n, n);
+
 		if (D) {
-			result.segment(n, n) = (-*invM)*(*K)*_in.head(n) - (*invM)*(*D)*_in.segment(n, n);
+			//result.segment(n, n) = (-*invM)*(*K)*_in.head(n) - (*invM)*(*D)*_in.segment(n, n);
+			//result.segment(n, n) = invMK*_in.head(n) - invMD*_in.segment(n, n);
+			result.segment(n, n) = -invMK_row *_in.head(n) - invMD_row*_in.segment(n, n);
 		}
 		else {
 			//no damping
-			result.segment(n, n) = (-*invM)*(*K)*_in.head(n);
+			//result.segment(n, n) = (-*invM)*(*K)*_in.head(n);
+			//result.segment(n, n) = invMK*_in.head(n);
+			result.segment(n, n) = -invMK_row *_in.head(n);
 		}
 
 		return _dt*result;
@@ -296,5 +311,7 @@ struct OIKD_wrapper {
 	//pointer to Damping matrix, by default NULL
 	SparseMatrix* D;
 	SparseMatrix* invM;
+	SparseMatrix invMD, invMK;
+	Eigen::SparseMatrix<ScalarType, Eigen::RowMajor> invMD_row, invMK_row;
 	ScalarType _dt;
 };

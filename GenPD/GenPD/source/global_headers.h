@@ -31,7 +31,7 @@
 #define _COMMON_HEADERS_H_
 
 //// precision enable high precision to use double precision floating points, default is single precision floating points
-//#define HIGH_PRECISION
+#define HIGH_PRECISION
 
 //// matlab debugger
 //// NOTE: if you don't have Matlab R2010a or higher versions installed on your computer, please comment the next line.

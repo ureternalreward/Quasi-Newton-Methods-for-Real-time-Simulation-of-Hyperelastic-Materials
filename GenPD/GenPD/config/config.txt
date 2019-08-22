@@ -4,26 +4,26 @@ MeshBody            0
 Wireframe           1
 Wireframe           1
 Texture             0
-ScreenWidth         1656
-ScreenHeight        938
+ScreenWidth         1826
+ScreenHeight        982
 
 MeshType            0
 MeshMass            100
 TetFilePath         longbar
-TetScaling          1
+TetScaling          2
 TetFlip             0
 TetRotation         0
-ClothDimension      5 5
+ClothDimension      21 21
 ClothCorners        -5 8 -5 5 8 5
 
-HandleColor         0.848166 1 0.05
-RandomHandleColor   1
+HandleColor         0.859821 0.05 1
+RandomHandleColor   0
 
-SimMethod           3
-OptimizationMethod  2
+SimMethod           1
+OptimizationMethod  1
 Timestep            0.04
-SubStepping         1
-OpenMP              0
+SubStepping         6
+OpenMP              1
 TetConstraintType   2
 AttachmentStiffness 30000
 StretchStiffness    30000
@@ -35,18 +35,18 @@ GravityConstant     10
 DampingCoefficient  0
 RestiCoefficient    0
 FrictionCoefficient 0
-IterationsPerFrame  10
+IterationsPerFrame  30
 DefinitenessFix     0
-LSEnable            0
+LSEnable            1
 LSExact             0
-LSType              2
-LSStep              0
-LSAlpha             0
-LSBeta              0
+LSType              0
+LSStep              1
+LSAlpha             0.003
+LSBeta              0.5
 AnimEnableSwing     0
 AnimSwingAll        0
 AnimHalfPeriod      0
 AnimAmp             0
 AnimDir             0 0 0
-LBFGSType           2
-LBFGSWindowSize     0
+LBFGSType           1
+LBFGSWindowSize     20

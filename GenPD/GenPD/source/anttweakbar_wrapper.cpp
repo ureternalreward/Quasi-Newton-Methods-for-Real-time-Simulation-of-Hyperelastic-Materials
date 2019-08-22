@@ -240,6 +240,7 @@ void AntTweakBarWrapper::Init()
 	TwAddVarRW(m_sim_bar, "Sub Stepping", TW_TYPE_INT32, &g_simulation->m_sub_stepping, "min = 1");
 	// integration method
 	TwEnumVal integrationStyleEV[INTEGRATION_TOTAL_NUM] = { \
+															{RK4, "RK4"}, \
 															{EPIRK, "EPIRK"}, \
 															{EXPONENTIAL_ROSENBROCK_EULER, "Rosenbrock Euler"}, \
 															{EXPLICIT_SYMPLECTIC, "Explicit Symplectic"},\
@@ -324,6 +325,8 @@ void AntTweakBarWrapper::Init()
 
 	TwAddVarRW(m_sim_bar, "Gravity", TW_TYPE_SCALAR_TYPE, &g_simulation->m_gravity_constant, " group='Constants' ");
 	TwAddVarRW(m_sim_bar, "Damping Coefficient", TW_TYPE_SCALAR_TYPE, &g_simulation->m_damping_coefficient, " min=0 group='Constants' ");
+	TwAddVarRW(m_sim_bar, "K alpha", TW_TYPE_SCALAR_TYPE, &g_simulation->m_rayleigh_alpha, " min=0 group='Constants' ");
+	TwAddVarRW(m_sim_bar, "M beta", TW_TYPE_SCALAR_TYPE, &g_simulation->m_rayleigh_beta, " min=0 group='Constants' ");
 	TwAddVarRW(m_sim_bar, "Restitution Coefficient", TW_TYPE_SCALAR_TYPE, &g_simulation->m_restitution_coefficient, " min=0 group='Constants' ");
 	TwAddVarRW(m_sim_bar, "Friction Coefficient", TW_TYPE_SCALAR_TYPE, &g_simulation->m_friction_coefficient, " min=0 group='Constants' ");
 	// Demo
